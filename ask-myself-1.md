@@ -5,7 +5,7 @@
 > js实现ajax请求分四个步骤：
     1. 创建一个`XMLHttpRequest`对象，当然如果要兼容ie6的话(ActiveXObject)
     2. 通过open()方法指定一个请求
-    3. 如果是`POST`请求的话，是要设置请求头的(setRequestHeader)。注意了,设置请求头这一步骤，是要在open之后，send之前，否则会报错
+    3. 如果是`POST`请求的话，是要设置请求头的(setRequestHeader)。注意了,设置请求头这一步骤，是要在open之后，send之前，否则会报错, 当然你也可以不设置, 它会自动根据`send`里面的代码添加对应的头部
     4. 监听`readstatechange`事件，获取请求响应
     5. send()发送请求,如果是`POST`请求，可以传参数对象
 
@@ -83,3 +83,11 @@ function serializeQuery(query){
 ```
 
 ### ajax请求中的ContentType有哪些值，有什么不同？
+> answer: 客户端通过`ContentType`告诉服务器实际发送的数据类型，可以根据该类型进行不同的处理
+> `ContentType`由三部分组成(media-type,charset,boundary)。现在例举一些比较常见的media-type:
+    1. text/plain: 纯文本，文件扩展名.txt
+    2. text/html：HTML文本，文件扩展名.htm和.html
+    3. application/x-www-form-urlencoded: 用于form表单提交(POST), 会把数据转成key1=val1&key2=val2的形式，并且通过URL(encodeURIComponent)转换
+    4. multipart/form-data: 上传文件或者带有文件的复杂表单数据的时候，需要用到该类型 ，它会给boundary设置一个复杂的字符
+    5. application/json：告诉服务器传输的是序列化后的json数据，需要手动序列化数据
+      
