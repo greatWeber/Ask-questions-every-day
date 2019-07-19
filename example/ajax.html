@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+function serializeQuery(query){
+    var serializearr = [];
+    for(var k in query){
+        if(!query.hasOwnProperty(k)) continue;
+        if(typeof query[k] === 'function') continue;
+        var name = encodeURIComponent(k);
+        var value = encodeURIComponent(query[k]);
+        serializearr.push(name+'='+value);
+    }
+    return serializearr.join('&');
+}
+// 简单实现ajax请求
+function ajax(params){
+    var params = {
+        url: params.url || '',
+        type: params.type || 'GET',
+        query: params.query || {},
+        async: params.async || true,
+        contentType: params.contentType || 'application/x-www-form-urlencoded',
+        success: params.success,
+        fail: params.fail,
+        complete: params.complete
+    };
+
+    // 判断浏览器是否支持XMLHttpRequest
+    if(window.XMLHttpRequest=== undefined){
+        window.XMLHttpRequest = function(){
+            return new ActiveXObject();
+        }
+    }
+
+    // 1
+    var request = new XMLHttpRequest();
+    
+    if(params.type.toUpperCase()=='GET' && params.query){
+        var serializeStr = serializeQuery(params.query);
+        params.url += '?'+serializeStr;
+    }
+
+    // 2
+    request.open(params.type,params.url,params.async);
+
+    // 3
+    if(params.type.toUpperCase()=='POST'){
+        request.setRequestHeader('Content-Type',params.request);
+    }
+
+    // 4
+    request.onreadystatechange = function(){
+        if(request.readyState!==4) return;
+        if(request.status==200){
+
+            typeof params.success === 'function' && params.success(request.responseText);
+        }else{
+            typeof params.fail === 'function' && params.fail(request.statusText);
+        }
+        typeof params.complete === 'function' && params.complete();
+
+    }
+
+    // 5
+    if(params.type.toUpperCase() =='POST'){
+        request.send(params.query)
+    }else{
+        request.send();
+    }
+
+}
+
+ajax({
+    url:'http://192.168.3.156:8888/api/collect/check',
+    query:{
+        userId:1,
+        pictureId:9
+    },
+    success: function(data){
+        console.log(data)
+    }
+})
+</script>
+</html>
