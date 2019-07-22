@@ -90,4 +90,17 @@ function serializeQuery(query){
     3. application/x-www-form-urlencoded: 用于form表单提交(POST), 会把数据转成key1=val1&key2=val2的形式，并且通过URL(encodeURIComponent)转换
     4. multipart/form-data: 上传文件或者带有文件的复杂表单数据的时候，需要用到该类型 ，它会给boundary设置一个复杂的字符
     5. application/json：告诉服务器传输的是序列化后的json数据，需要手动序列化数据
-      
+
+### encodeURIComponent的作用？
+> answer: 是对统一资源标识符(URI)的组成部分进行编码的方法，转义除了字母，数字，( ) . ! ~ * ' - _ 之外的所以字符。
+
+> why use? 一般来说，URL只能用英文字母，数字及一些字符组成，特殊字符比如汉字是不能直接使用的，必须编码。
+
+> 如果没有手动编码，那么浏览器就会插手，但浏览器根据版本，系统，场景等情况下编码是不一样的，为了避免混乱，就必须手动用js进行编码
+
+> 参考: 
+
+[MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent)
+
+
+[关于URL编码](http://www.ruanyifeng.com/blog/2010/02/url_encoding.html)      
