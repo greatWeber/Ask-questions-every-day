@@ -224,6 +224,7 @@ console.log(child1.add === child2.add); //false
 console.log(child1.add2 === child2.add2); //true
 
 ```
-
+> 参考： [JS继承实现的几种方式及其优缺点](https://segmentfault.com/a/1190000011151188)
+[Javascript面向对象编程（二）：构造函数的继承](http://www.ruanyifeng.com/blog/2010/05/object-oriented_javascript_inheritance.html)
 
 ### package.json中的dependencies和devDependencies的区别
