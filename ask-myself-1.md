@@ -111,3 +111,119 @@ node的写法就可以很简单，module.exports导出什么，require进来的�
 4. import必须写在文件的开头，而require没有这个要求
 5. import是编译时的，require是运行时的
 > 参考：[Node中没搞明白require和import，你会被坑的很惨](https://imweb.io/topic/582293894067ce9726778be9)
+
+### es5的继承有哪几种方式？
+> answer: 
+1. 构造函数继承。缺点是没有共享方法，浪费内存,并且拿不到父类的prototype对象
+```js
+
+function Parent(){
+    this.names=['parent'];
+    this.add = function(name){
+        this.names.push(name);
+    }
+}
+
+
+function Child(){
+    Parent.call(this);
+}
+
+var child1 = new Child();
+var child2 = new Child();
+child1.add('child1');
+console.log(child1.names); //["parent", "child1"]
+console.log(child2.names); //["parent"]
+console.log(child1.add === child2.add); //false
+
+```
+
+2. 原型继承。缺点是属性也被共享了
+```js
+
+function Parent(){
+    this.names=['parent'];
+    this.add = function(name){
+        this.names.push(name);
+    }
+}
+
+function Child(){
+    
+}
+
+Child.prototype = new Parent();
+
+var child1 = new Child();
+var child2 = new Child();
+child1.add('child1');
+console.log(child1.names); //["parent", "child1"]
+console.log(child2.names); //["parent", "child1"]
+console.log(child1.add === child2.add); //true
+
+```
+
+3. 组合继承。缺点是父类调用多次，开销比较大，
+```js
+
+function Parent(){
+    this.names=['parent'];
+    this.add = function(name){
+        this.names.push(name);
+    }
+}
+
+Parent.prototype.add2 = function(name){
+        this.names.push(name);
+    }
+
+function Child(){
+    Parent.call(this);
+}
+
+Child.prototype = new Parent();
+
+var child1 = new Child();
+var child2 = new Child();
+child1.add('child1');
+console.log(child1.names); //["parent", "child1"]
+console.log(child2.names); //["parent", "child1"]
+console.log(child1.add === child2.add); //false
+console.log(child1.add2 === child2.add2); //true
+
+```
+
+4. 寄生继承, 相对比较完美
+```js
+function Parent(){
+    this.names=['parent'];
+    this.add = function(name){
+        this.names.push(name);
+    }
+}
+
+Parent.prototype.add2 = function(name){
+        this.names.push(name);
+    }
+
+function Child(){
+    Parent.call(this);
+}
+
+var Fn = new Function();
+Fn.prototype = Parent.prototype;
+
+Child.prototype = new Fn();
+
+var child1 = new Child();
+var child2 = new Child();
+child1.add('child1');
+console.log(child1.names); //["parent", "child1"]
+console.log(child2.names); //["parent", "child1"]
+console.log(child1.add === child2.add); //false
+console.log(child1.add2 === child2.add2); //true
+
+```
+
+
+### package.json中的dependencies和devDependencies的区别
