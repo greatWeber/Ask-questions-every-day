@@ -228,3 +228,10 @@ console.log(child1.add2 === child2.add2); //true
 [Javascript面向对象编程（二）：构造函数的继承](http://www.ruanyifeng.com/blog/2010/05/object-oriented_javascript_inheritance.html)
 
 ### package.json中的dependencies和devDependencies的区别
+> answer:
+1. 当`npm`安装依赖的时候, 顶层的package会安装自身的`dependencies`和`devDependencies`, 还有子package
+的`dependencies`, 但就是不会安装子级的`devDependencies`。
+2. 当用node打包的时候, `dependencies`会被打包进去, 而`devDependencies`不会。所以当用到跟业务有关的插件, 
+都应该放在`dependencies`, 而环境，编译类的插件放在`devDependencies`。
+
+> 参考：[聊聊 node.js 中各种 dependency](https://juejin.im/entry/58ad025f8fd9c50067ffd41d)
