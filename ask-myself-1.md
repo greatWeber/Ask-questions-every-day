@@ -163,7 +163,7 @@ console.log(child1.add === child2.add); //true
 
 ```
 
-3. 组合继承。缺点是父类调用多次，开销比较大，
+3. 组合继承。缺点是父类调用多次，开销比较大，而且子类的属性存在两份
 ```js
 
 function Parent(){
@@ -244,3 +244,7 @@ console.log(child1.add2 === child2.add2); //true
 
 2. for..of..: 只能遍历迭代器(iterator),它可以使用的范围包括`数组、Set 和 Map 结构、某些类似数组的对象（比如arguments对象、DOM NodeList 对象）、 Generator，以及字符串`。
 当遍历的时候，获取的不是下标(键名)，而是键值。
+
+> 参考： 
+[Js中for in 和for of的区别](https://juejin.im/post/5aea83c86fb9a07aae15013b)
+[for...of 循环](http://es6.ruanyifeng.com/?search=for+of&x=0&y=0#docs/iterator#for---of-%E5%BE%AA%E7%8E%AF)
