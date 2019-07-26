@@ -235,3 +235,12 @@ console.log(child1.add2 === child2.add2); //true
 都应该放在`dependencies`, 而环境，编译类的插件放在`devDependencies`。
 
 > 参考：[聊聊 node.js 中各种 dependency](https://juejin.im/entry/58ad025f8fd9c50067ffd41d)
+
+### for..in.. 和 for..of.. 有什么区别？
+> answer: 
+1. for..in..: 可以遍历数组和对象。里面可以使用`break, continue`。
+当遍历数组的时候，获取的是数组的下标; 当遍历对象的时候，获取的是属性的键名。
+另外，当遍历对象的时候，还能获取原型上的属性和方法(前提是它们可遍历的,在es6的class中，只有constructor里面的方法属性可以遍历到)
+
+2. for..of..: 只能遍历迭代器(iterator),它可以使用的范围包括`数组、Set 和 Map 结构、某些类似数组的对象（比如arguments对象、DOM NodeList 对象）、 Generator，以及字符串`。
+当遍历的时候，获取的不是下标(键名)，而是键值。
