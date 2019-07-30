@@ -18,7 +18,7 @@
 > answer: 
 1. 页面的生命周期顺序：beforeCreate -> created ->(onLoad/onLauch) -> onShow -> onReady 
 -> beforeMount -> mounted ...(其他的生命周期不分顺序)
-2. 组件的生命周期顺序：beforeCreate -> created ->(onLoad/onLauch) -> onReady 
+2. 组件的生命周期顺序：beforeCreate -> created ->onLoad -> onReady 
 -> beforeMount -> mounted ...(其他的生命周期不分顺序)
 
 
