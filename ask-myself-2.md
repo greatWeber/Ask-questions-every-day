@@ -13,3 +13,18 @@
 7. `beforeDestroy`: 实例销毁之前调用。在这一步，实例仍然完全可用。
 8. `destroyed`: Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
 参考：[选项 / 生命周期钩子](https://cn.vuejs.org/v2/api/#%E9%80%89%E9%A1%B9-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90)
+
+### mpvue的生命周期
+> answer: 
+1. 页面的生命周期顺序：beforeCreate -> created ->(onLoad/onLauch) -> onShow -> onReady 
+-> beforeMount -> mounted ...(其他的生命周期不分顺序)
+2. 组件的生命周期顺序：beforeCreate -> created ->(onLoad/onLauch) -> onReady 
+-> beforeMount -> mounted ...(其他的生命周期不分顺序)
+
+
+> 注意：
+1. 当小程序加载完后，会执行当前页面和其他页面的beforeCreate和created阶段(组件除外)
+2. 在当前页面点击后退，会执行onUnload事件，再次重新进来，会执行onLoad及以后的生命周期(组件也一样)，但之前的数据不会自动清空，所以要小心
+3. mpvue的生命周期的vue部分基本和原生的vue一致，不过没有了$el,反而多了一个$mp
+
+
