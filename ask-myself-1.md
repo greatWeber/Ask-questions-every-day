@@ -248,3 +248,18 @@ console.log(child1.add2 === child2.add2); //true
 > 参考： 
 [Js中for in 和for of的区别](https://juejin.im/post/5aea83c86fb9a07aae15013b)
 [for...of 循环](http://es6.ruanyifeng.com/?search=for+of&x=0&y=0#docs/iterator#for---of-%E5%BE%AA%E7%8E%AF)
+
+### 实现一个call函数
+> answer: 关键在于如何改变this的指向，具体看代码:
+```js
+Function.prototype._call = function(){
+    if(!(this instanceof Function)) throw new Error('只用函数才能用_call!!!');
+    var context = arguments[0] || window || global;
+    context._fn = this;
+    var args = [].slice.call(arguments,1);
+    return context._fn(...args);
+
+}
+
+```
+
