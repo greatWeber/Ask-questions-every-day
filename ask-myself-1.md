@@ -253,12 +253,55 @@ console.log(child1.add2 === child2.add2); //true
 > answer: 关键在于如何改变this的指向，具体看代码:
 ```js
 Function.prototype._call = function(){
-    if(!(this instanceof Function)) throw new Error('只用函数才能用_call!!!');
+    if(!(this instanceof Function)) throw new Error('只有函数才能用_call!!!');
     var context = arguments[0] || window || global;
     context._fn = this;
     var args = [].slice.call(arguments,1);
     return context._fn(...args);
 
+}
+
+```
+
+### 实现一个apply函数
+> answer: 和call差不多，注意参数传递的方式不同
+```js
+Function.prototype._apply = function(){
+    if(!(this instanceof Function)) throw new Error('只有函数才能用_apply!!!');
+    var context = arguments[0] || window || global;
+    context._fn = this;
+    return context._fn(...arguments[1]|| null);
+}
+
+```
+
+### 实现一个bind函数
+> answer: 首先要了解bind跟call,apply有什么不同的地方：
+1. .bind()后，会返回一个新的函数，不会立即执行
+2. 可以实现参数柯里化
+3. bind绑定后的返回的函数，如果执行了new操作，要把原型指向绑定前的那个函数
+
+```js
+
+Function.prototype._bind = function(){
+    if(typeof this !== 'Function') throw new Error('只有函数才能用_bind!!!');
+    var context = arguments[0] || window || global;
+    var fn = new Function();
+    var fToBind = this;
+    var args = [].slice.call(arguments,1);
+    var fBind = function(){
+        return fToBind.apply(
+            // 如果this已经是fBind的实例，就解除bind的效果
+            this instanceof fBind? this: fToBind,
+            args.concat([].slice.call(arguments)) //实现柯里化
+        )
+    }
+
+    if(this.prototype){
+        fn.prototype = this.prototype;
+    }
+    fBind.prototype = new fn(); //用寄生继承的方式，保持原来的原型链
+    return fBind;
 }
 
 ```
