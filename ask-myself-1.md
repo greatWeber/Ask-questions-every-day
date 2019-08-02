@@ -279,7 +279,7 @@ Function.prototype._apply = function(){
 > answer: 首先要了解bind跟call,apply有什么不同的地方：
 1. .bind()后，会返回一个新的函数，不会立即执行
 2. 可以实现参数柯里化
-3. bind绑定后的返回的函数，如果执行了new操作，要把原型指向绑定前的那个函数
+3. bind绑定返回的函数，如果执行了new操作，要把原型指向绑定前的那个函数
 
 ```js
 
