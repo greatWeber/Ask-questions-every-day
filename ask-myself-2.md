@@ -27,4 +27,10 @@
 2. 在当前页面点击后退，会执行onUnload事件，再次重新进来，会执行onLoad及以后的生命周期(组件也一样)，但之前的数据不会自动清空，所以要小心
 3. mpvue的生命周期的vue部分基本和原生的vue一致，不过没有了$el,反而多了一个$mp
 
-
+### 聊聊vue的响应式系统
+> answer: vue的响应式主要分成3个部分，数据劫持(observer), 订阅监听(watcher), 依赖收集(dev)。
+当初始化数据的时候，对数据用defineProperty进行劫持，在get()属性中，对订阅到的监听(watcher)进行收集，
+然后在set()属性中进行触发，把修改后的值分发到watcher中，对应的watcher收到改变后的值(newValue)后，通过
+patch()方法对vdom进行diff运算，最后对原生dom进行修改。到这里，通过修改model就到改变view,那反过来呢？
+通过 Dom Listeners(dom事件监听)触发事件来改变数据。注意，通过view能够修改model并不能说明vue的数据是
+双向绑定的，事实上，vue依然是单向绑定的。
