@@ -318,3 +318,20 @@ udp: 跟tcp一样，是传输层的协议，不过是面向非连接的，即通
 http 是在 tcp协议上进行传输的，每一个http请求/响应都会建立一个新的tcp连接。
 
 
+### 实现一个new函数
+> answer: 首先要清除new进行了哪些处理：
+1. 创建一个新对象obj
+2. 把obj.__proto__指向构造函数的prototype
+3. 执行构造函数
+4. 返回obj
+
+```js
+
+function _new(){
+    var context = arguments[0];
+    var args = [].prototype.slice.call(arguments,1);
+    var obj = Object.create(context.prototype);
+    var rs = context.apply(obj,args);
+    return rs instanceof Object? rs: obj;
+}
+```
