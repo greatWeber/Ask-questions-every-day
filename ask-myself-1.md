@@ -337,7 +337,7 @@ function _new(){
 ```
 
 ### 常见的排序算法
-> answer: 介绍一下冒泡排序，选择排序和快速排序。
+> answer: 介绍一下冒泡排序，选择排序，快速排序，插入排序和希尔排序。
 1. 冒泡排序：特点，每一次循环都会对前后元素进行交换，最后都能确定一个元素的位置。时间复杂度O(n2)。
 ```js
 function bubbleSort(arr){
@@ -397,6 +397,45 @@ function quickSort(arr){
 	};
 	return quickSort(left).concat([middle],quickSort(right));
 	
+};
+
+```
+
+4. 插入排序：跟我们平时整理扑克牌一样，每次都把一张牌插入到已经排好序的牌中的适合位置。只是，在算法实现中，要插到对应的位置，该位置后的元素都要往后移动一格。
+
+```js
+function insertSort(arr){
+	let len = arr.length;
+	let temp ;
+	let k;
+	for(let i=0;i<len;i++){
+		k=i;
+		while(k>0&&arr[k]<arr[k-1]){ //这里可以不用中间变量来交换数据
+			temp = arr[k];
+			arr[k] = arr[k-1];
+			arr[k-1] = temp;
+			k--;
+		}
+	}
+	return arr;
+};
+
+function insertSort(arr){
+	let len = arr.length;
+	let current ;
+	let preIndex;
+
+	for(let i=0;i<len;i++){
+		preIndex = i-1;
+        current = arr[i]
+		while(preIndex>0&&arr[preIndex]>current){ 
+			
+			arr[preIndex+1] = arr[preIndex];
+            preIndex--;
+		}
+        arr[preIndex+1] = current;
+	}
+	return arr;
 };
 
 ```
