@@ -440,4 +440,32 @@ function insertSort(arr){
 
 ```
 
+5. 希尔排序: 插入排序的升级版，使数组中任意间隔为h的元素都是有序的。时间复杂度O(n logn)。
+```js
+
+function shell(arr){
+	var len = arr.length;
+	var h=1, w=3; //分组的常数因子，该值可以是>=1&&<n的数字，当数据足够大的时候，无论该值是多少，都不会对性能造成多大的影响
+	while(h<Math.floor(len/w)){
+		h = h*w+1;
+	};
+	while(h>=1){
+		for(let i=h;i<len;i++){
+			let k = i;
+			while(k>=h&&arr[k]<arr[k-h]){
+				let temp = arr[k];
+				arr[k] = arr[k-h];
+				arr[k-h] = temp;
+				k = k -h;
+			}
+		}
+		h = Math.floor(h/w);
+	}
+
+	return arr;
+};
+
+
+```
+
 > 参考：[JS家的排序算法](https://www.cnblogs.com/liululin/p/5897059.html)
