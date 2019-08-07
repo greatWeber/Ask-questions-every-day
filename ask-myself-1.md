@@ -335,3 +335,70 @@ function _new(){
     return rs instanceof Object? rs: obj;
 }
 ```
+
+### 常见的排序算法
+> answer: 介绍一下冒泡排序，选择排序和快速排序。
+1. 冒泡排序：特点，每一次循环都会对前后元素进行交换，最后都能确定一个元素的位置。时间复杂度O(n2)。
+```js
+function bubbleSort(arr){
+	let len = arr.length;
+	let flat = false;
+	for(let i=0;i<len;i++){
+		if(flat) break;
+		for(let k=0;k<len-i-1;k++){
+			if(arr[k]>arr[k+1]){
+				let temp = arr[k];
+				arr[k] = arr[k+1];
+				arr[k+1] = temp;
+				flat = false;
+			}else{
+				flat = true;
+			}
+		}
+	}
+	return arr;
+};
+
+```
+
+2. 选择排序：每次循环都在没排序的位置开始寻找最小的数值。时间复杂度O(n2)，非常稳定，无论什么数组都是这个时间复杂度。
+```js
+function selectionSort(arr){
+	let len = arr.length;
+	let minIndex = 0;
+	for(let i=0;i<len;i++){
+		minIndex = i;
+		for(let k=i+1;k<len;k++){
+			if(arr[k]<arr[minIndex]){
+				minIndex = k;
+			}
+		}
+		let temp = arr[i];
+		arr[i] = arr[minIndex];
+		arr[minIndex] = temp;
+	}
+	return arr;
+};
+
+```
+
+3. 选择排序：利用分而治之思想的典型例子，把一个数组分成左右两边进行递归排序。时间复杂度O(n logn)。
+```js
+function quickSort(arr){
+	if(arr.length<2){return arr}
+	let middle = arr.shift(); //这个不能忘记，否则会无限循环
+	let left=[],right=[];
+	for(let i=0;i<arr.length;i++){
+		if(arr[i]<middle){
+			left.push(arr[i])
+		}else{
+			right.push(arr[i])
+		}
+	};
+	return quickSort(left).concat([middle],quickSort(right));
+	
+};
+
+```
+
+> 参考：[JS家的排序算法](https://www.cnblogs.com/liululin/p/5897059.html)
