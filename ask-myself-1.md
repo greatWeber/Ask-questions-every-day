@@ -469,3 +469,28 @@ function shell(arr){
 ```
 
 > 参考：[JS家的排序算法](https://www.cnblogs.com/liululin/p/5897059.html)
+
+### 了解一下typeof，如何写一个完善的typeof?
+> answer: typeof 返回对象的类型，只能返回以下类型：'undefined','object','boolean','number','string',
+'symbol','function'。所以它的缺点很明显，就是不能区分[], Null和其它一些复杂对象，因为它们都返回'object'。
+如果要完善一个typeof，可以结合Object.prototype.toString来实现。
+
+```js
+function typeOf(o){
+    var _toString = Object.prototype.toString;
+    var _types = {
+        'undefined':'undefined',
+        'string':'string',
+        'number':'number',
+        'boolean':'boolean',
+        'symbol':'symbol',
+        '[object Function]': 'function',
+        '[object Array]': 'array',
+        '[object Date]' : 'date',
+        '[object RegExp]':'regExp',
+        '[object Error]': 'error'
+    };
+    return _types[typeof o] || _types[_toString.call(o)] || (o?'object':'null');
+}
+
+```
