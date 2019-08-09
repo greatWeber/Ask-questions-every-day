@@ -42,10 +42,16 @@ patch()方法对vdom进行diff运算，最后对原生dom进行修改。到这�
 ### vue中watch和computed的区别和应用场景？
 > answer: 区别：
 1. computed定义的变量不能跟data里面的重名，否则会报错；watch是监听data里面的某个数据
-2. computed具有缓存，页面重新渲染的时候，如果值不变会立即返回而不需要再次执行；watch没有缓存，当页面重新
-渲染的时候，不管值如何都会执行
+2. computed具有缓存，页面重新渲染的时候，如果值不变会立即返回而不需要再次执行；
 3. computed是计算属性值，需要有return; watch是一个监听动作，可以不用返回return;
 应用：
-基于computed的特点，一般适用于模板渲染中；watch一般适用于监听数据变化后处理一些业务逻辑。
+基于computed的特点，一般适用于模板渲染中，替代直接在模板写复杂的逻辑；watch一般适用于监听数据变化后处理一些业务逻辑。
 > 参考：[计算属性 VS 侦听属性](https://ustbhuangyi.github.io/vue-analysis/reactive/computed-watcher.html#computed)
 [Vue的computed和watch的细节全面分析](https://segmentfault.com/a/1190000012948175?utm_source=tag-newest)
+
+### mvc和mvvm的区别？
+> answer: 
+mvc: model层用来存储业务的数据，一旦数据发生变化便通知相关的视图(view); view层负责显示视图，里面充斥着大量的dom操作; controller层是model和view之间的桥梁，通过controller让model发生变化并通知view更新视图。
+mvc的缺点是view和controller没有解耦，因为它们之间是使用策略模式的，需要在view中传入controller的实例来实现特定的响应。
+
+mvvm: model层更加纯粹，只关心数据本身，视图更新的通知交给了vm层处理; view层也改变很大，用模板加数据插值来渲染dom, 不需要对原生dom做操作; viewModle层采用了数据绑定，model和view之间的数据同步就由vm层的数据绑定进行处理了。随便说一下，不同的mvvm框架的数据绑定方式是不一样的：vue(数据劫持); react(发布-订阅); angular(脏值检查)
