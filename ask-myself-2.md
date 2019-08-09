@@ -55,3 +55,4 @@ mvc: model层用来存储业务的数据，一旦数据发生变化便通知相�
 mvc的缺点是view和controller没有解耦，因为它们之间是使用策略模式的，需要在view中传入controller的实例来实现特定的响应。
 
 mvvm: model层更加纯粹，只关心数据本身，视图更新的通知交给了vm层处理; view层也改变很大，用模板加数据插值来渲染dom, 不需要对原生dom做操作; viewModle层采用了数据绑定，model和view之间的数据同步就由vm层的数据绑定进行处理了。随便说一下，不同的mvvm框架的数据绑定方式是不一样的：vue(数据劫持); react(发布-订阅); angular(脏值检查)
+> 参考：[浅析前端开发中的 MVC/MVP/MVVM 模式](https://juejin.im/post/593021272f301e0058273468)
