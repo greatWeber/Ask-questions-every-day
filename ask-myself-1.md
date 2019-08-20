@@ -44,7 +44,7 @@ function ajax(params){
 
     // 3
     if(params.type.toUpperCase()=='POST'){
-        request.setRequestHeader('Content-Type',params.request);
+        request.setRequestHeader('Content-Type',params.contentType);
     }
 
     // 4
@@ -382,7 +382,7 @@ function selectionSort(arr){
 
 ```
 
-3. 选择排序：利用分而治之思想的典型例子，把一个数组分成左右两边进行递归排序。时间复杂度O(n logn)。
+3. 快速排序：利用分而治之思想的典型例子，把一个数组分成左右两边进行递归排序。时间复杂度O(n logn)。
 ```js
 function quickSort(arr){
 	if(arr.length<2){return arr}
@@ -445,7 +445,7 @@ function insertSort(arr){
 
 function shell(arr){
 	var len = arr.length;
-	var h=1, w=3; //分组的常数因子，该值可以是>=1&&<n的数字，当数据足够大的时候，无论该值是多少，都不会对性能造成多大的影响
+	var h=1, w=3; //分组的常数因子，该值可以是>=1&&<len的数字，当数据足够大的时候，无论该值是多少，都不会对性能造成多大的影响
 	while(h<Math.floor(len/w)){
 		h = h*w+1;
 	};
@@ -494,3 +494,29 @@ function typeOf(o){
 }
 
 ```
+
+
+### 重绘和回流了解一下？
+> 首先了解浏览器的渲染过程：
+1. 解析html, 生成dom树
+2. 解析css, 生成cssom树
+3. 将dom树和cssom树结合，生成渲染树(render tree)
+4. 回流(layout): 根据生成的渲染树，进行回流，等到节点的几何信息(位置，大小)
+5. 重绘(painting): 根据渲染树和回流得到的几何信息，得到节点的绝对信息
+6. 显示(display): 将像素发送给GPU，显示在页面上
+
+> 回流：计算节点在视图(viewport)的准确位置和大小。当节点的几何信息或者布局变化时，会发生回流。
+
+>重绘： 把可见节点的样式和几何信息结合起来转成屏幕上的实际像素。当节点的几何信息或者样式改变，但不影响布局变化时，会发生重绘。
+
+> 回流一定会触发重绘，但反过来不成立。
+
+> 优化：
+1. 减少使用修改样式属性的次数，比如使用cssText，或者用class来修改样式
+2. 当需要批量修改dom的时候，可以使之脱离文档流，修改完后带回文档流。
+3. 使用css3硬件加速，可以让一些css动画不引起重绘回流。
+
+> 脱离文档流的方法：
+1. 隐藏元素(display:none)，修改完重新显示
+2. 使用document.fragment创建一个子树，再插入文档流
+3. 将原始的元素拷贝到一个脱离文档流的节点中，修改完后，替换原始的元素
