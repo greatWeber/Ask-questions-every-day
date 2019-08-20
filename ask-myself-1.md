@@ -520,3 +520,5 @@ function typeOf(o){
 1. 隐藏元素(display:none)，修改完重新显示
 2. 使用document.fragment创建一个子树，再插入文档流
 3. 将原始的元素拷贝到一个脱离文档流的节点中，修改完后，替换原始的元素
+
+> 参考：[【开发必看】你真的了解回流和重绘吗？](https://www.cnblogs.com/qcloud1001/p/10265985.html)
