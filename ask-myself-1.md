@@ -534,7 +534,7 @@ function typeOf(o){
 webpack本身支持按需加载的，开启只需要下面几步：
 1. 修改webpack.config.js，在output里面添加`chunkFilename`字段配置
 
-2. 代码中的import需要按需使用。如果在文件开通就一股脑的使用import引入文件，是无法使用webpack的按需加载功能的，需要在某个时机动态import。比如在vue项目中，我们会对vue-router的组件进行动态import。
+2. 代码中的import需要按需使用。如果在文件开通就一股脑的使用import引入文件，是无法使用webpack的按需加载功能的，需要以`import().then()`这种形式动态加载。比如在vue项目中，我们会对vue-router的组件进行动态import。
 
 3. 对于第三方组件库使用按需加载(以vue框架为例)，需要配合第三方插件`babel-plugin-component`,前提是第三方组件库有做按需加载的处理。
 
