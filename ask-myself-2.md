@@ -56,3 +56,13 @@ mvc的缺点是view和controller没有解耦，因为它们之间是使用策略
 
 mvvm: model层更加纯粹，只关心数据本身，视图更新的通知交给了vm层处理; view层也改变很大，用模板加数据插值来渲染dom, 不需要对原生dom做操作; viewModle层采用了数据绑定，model和view之间的数据同步就由vm层的数据绑定进行处理了。随便说一下，不同的mvvm框架的数据绑定方式是不一样的：vue(数据劫持); react(发布-订阅); angular(脏值检查)
 > 参考：[浅析前端开发中的 MVC/MVP/MVVM 模式](https://juejin.im/post/593021272f301e0058273468)
+
+### wepback热更新原理
+1. 通过webpack-dev-server 启动本地服务器，然后再建立一个websocket连接，这样就可以连接本地服务器和浏览器的双向通信。
+2. 通过webpack-dev-middleware 监听文件变化，当文件变化时，触发编译，编译结束后就通过websocket给浏览器发送通知
+3. 浏览器端用websocket注册了2个监听事件： hash事件(用于更新最后一次打包的hash值)；ok事件(进行热更新检查)
+4. 热更新检查的时候，使用node的eventEmitter实例，发送一个`webpackHotUpdate`消息给 webpack 处理热更新。
+5. webpack监听到`webpackHostUpdate`事件后，调用webpack.hot.check()进行检查，然后通过JSONP的方式，请求要热更新的文件(以hot-update.js结尾的js文件)
+6. 最终使用hotApplay进行模块替换。分几步走：1. 删除过期的模块；2. 把新的模块添加到modules中; 3. 通过webpack_require 执行相关模块的代码
+
+

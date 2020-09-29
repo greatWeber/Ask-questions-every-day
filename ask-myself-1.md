@@ -284,7 +284,7 @@ Function.prototype._apply = function(){
 ```js
 
 Function.prototype._bind = function(){
-    if(typeof this !== 'Function') throw new Error('只有函数才能用_bind!!!');
+    if(!(this instanceof Function)) throw new Error('只有函数才能用_bind!!!');
     var context = arguments[0] || window || global;
     var fn = new Function();
     var fToBind = this;
@@ -292,7 +292,7 @@ Function.prototype._bind = function(){
     var fBind = function(){
         return fToBind.apply(
             // 如果this已经是fBind的实例，就解除bind的效果
-            this instanceof fBind? this: fToBind,
+            this instanceof fBind? this: context,
             args.concat([].slice.call(arguments)) //实现柯里化
         )
     }
@@ -308,7 +308,7 @@ Function.prototype._bind = function(){
 
 ### 认识 http, tcp, udp协议
 > answer: 首先我们要知道，网络是分为七层的：物理层，数据链路层，网络层，传输层，会话层，表示层，应用层。
-http: 是应用层的一个协议，表示从web浏览器传输超文本到本地浏览器的传送协议。
+http: 是应用层的一个协议，表示从web服务器传输超文本到本地浏览器的传送协议。
 tcp: 是传输层的一个协议，是面向连接的，即通信前需要和对方建立连接，如我们常见的三次握手：
     1. A主机向B主机发起请求建立连接的数据包
     2. B主机向A主机发送同意和请求同步的数据包
@@ -526,7 +526,7 @@ function typeOf(o){
 ### nginx代理和反代理
 >正向代理：隐藏真实的请求客户端，服务端不知道真实的客户端是谁，客户端请求的服务都被代理服务器代替来请求，某些可惜上网工具就是典型的正向代理
 
-> 反向代理：隐藏真实的服务端。当我们请求www.baidu.com的时候，背后可能有成千上万台五福桥为我们服务，但具体是哪一台，我们是不需要知道的，只知道反向代理的服务器是谁就可以了。www.baidu.com就是我们的反向代理服务器
+> 反向代理：隐藏真实的服务端。当我们请求www.baidu.com的时候，背后可能有成千上万台服务器为我们服务，但具体是哪一台，我们是不需要知道的，只知道反向代理的服务器是谁就可以了。www.baidu.com就是我们的反向代理服务器
 
 >两者的区别：前者用于客户端，后者用于服务器端
 
@@ -553,7 +553,53 @@ webpack本身支持按需加载的，开启只需要下面几步：
 
 > *需要注意的是，js的作用域遵循词法作用域模型，变量的作用域在书写的时候就确定下来了，不会动态改变。但实质上也是有方法可以修改词法作用域：`eval`,`with`
 
+### 简单请求和复杂请求
+简单请求： 
+1. 请求方法为 get,post,head; 
+2. 不能自定义请求头，除了下面4个(Accept,Accept-Language,Content-Language,Content-Type)
+3. Content-Type的值是下面3个之一(text/plain,multipart/form-data,application/x-www-form-urlencoded)
+
+复杂请求： 就是除了简单请求外的请求 =。=
+
+### flex
+flex 意为 弹性布局，任何一个容器都可以指定为flex布局，不管是块元素还是行内元素。`设置为flex布局后，子元素的float。clear，vertical-align 都将失效`。
+采用flex布局的元素称为flex容器，子元素称为flex项目
+flex-direction: 决定项目的排序方向
+flex-wrap: 如何一条轴线排不下，如何换行
+flex-flow: 上面两个的简写形式
+justify-content: 定义项目在主轴上的对齐方式
+align-items: 定义项目在交叉轴上如何对齐
+align-content: 定义了多根轴线的对齐方式，当只有一根轴线时，不起作用
+
+order: 定义项目的排序顺序，数值越小，排序越靠前，默认为0
+flex-grow: 定义项目的放大比例
+flex-shrink: 定义项目的缩小比例。默认1，即空间不足，缩小改项目，为0则不缩小
+flex-basis: 在分配多余空间之前，项目所占据的主轴空间，浏览器会根据这个属性，计算主轴是否有多余的空间
+flex: 是 flex-grow,flex-shrink和flex-basis的缩写，默认值为 0 1 auto。
+align-self:允许单个项目有与其他项目不一样的对齐方式，可以覆盖align-items属性
 
 
+### Map 与 WeakMap的区别
+1. Map对象的键可以是任何类型，但WeakMap对象中的键只能是对象引用(null除外)
+2. WeakMap 不能包含无引用的对象，否则会被自动清除出集合
+3. WeakMap没有size属性，是不可枚举的，无法获取集合的大小
 
+### typeof 原理
 
+typeof 是根据不同对象在底层二进制的前三位的不同组合来判断不同的类型。
+
+000：对象
+1： 整数
+010： 浮点数
+100：字符串
+110：布尔值
+-2^30:undefined
+全零： null
+
+### xss漏洞
+xss 跨站脚本攻击，它指的是 恶意攻击者在 web页面插入恶意的html代码，当用户浏览的时候触发执行，达到恶意的目的。
+攻击途径：
+1. url输入，获取url参数的时候没有转义
+2. 用户表单输入提交
+3. 在标签中事件中直接写js脚本
+4. 
