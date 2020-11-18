@@ -21,3 +21,19 @@ componentWillUnmount() 组件卸载时调用
 3. componentWillMount 会在 render 方法前执行；componentDidMount发会在渲染结束后触发
 4. componentReceiveProps 并不是由props得变化触发的，而是由父组件的更新触发的
 5. shouldComponentUpdate 的返回值，会决定react组件是否进行re-render(重渲染)，我们可以通过手动调用shouldComponentUpdate来优化性能
+6. 组件被销毁的两个原因：组件在父组件中被移除了；组件设置了key值，父组件在render的时候，发现key值跟上次的不一样，组件就会被销毁
+
+16版的生命周期：
+
+constructor()
+getDerivedStateFromProps() 初始化/更新时调用
+componentDidMount() 
+shouldComponentUpdate() 组件更新时调用
+getSnapshotBeforeUpdate() 组件更新前调用
+componentDidUpdate() 
+componentWillUnmount()
+
+要点解释：
+1. 新增的getDerivedStateFromProps，用来替代componentWillReceiveProps.它只有一个用途：`使用props来派生/更新state`.如果不是出于这个目的使用，都是不符合规范的
+2. 在16.4及以后的版本中，任何因素触发的组件更新流程(包括由this.setState和forceUpdate触发的更新)都会触发getDerivedStateFromProps; 16.3版本只有父组件的更新会出触发该生命周期
+
