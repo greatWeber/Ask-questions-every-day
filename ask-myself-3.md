@@ -13,7 +13,7 @@ componentDidMount() 初始化渲染后调用
 render() 渲染函数
 componentWillUnmount() 组件卸载时调用
 
-<img src="https://greatweber.github.io/Ask-questions-every-day/images/20201117203136.jpg" alt="banner" width="600px">
+<img src="https://raw.githubusercontent.com/greatWeber/Ask-questions-every-day/master/images/20201117203136.jpg" alt="banner" width="600px">
 
 要点解释：
 1. constructor, componentWillMount, componentDidMount 方法只会在挂载阶段调用一次
