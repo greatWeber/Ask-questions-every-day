@@ -36,4 +36,9 @@ componentWillUnmount()
 要点解释：
 1. 新增的getDerivedStateFromProps，用来替代componentWillReceiveProps.它只有一个用途：`使用props来派生/更新state`.如果不是出于这个目的使用，都是不符合规范的
 2. 在16.4及以后的版本中，任何因素触发的组件更新流程(包括由this.setState和forceUpdate触发的更新)都会触发getDerivedStateFromProps; 16.3版本只有父组件的更新会出触发该生命周期
+3. getDerivedStateFromProps是一个静态方法，内部无法访问this.并且需要返回一个对象结构的值，react会根据返回值来定向更新组件的state.
+4. getSnapshotBeforeUpdate 的返回值会作为第三个参数给到componentDidUpdate.它的执行时机是在render之后，真实dom更新之前。getSnapshotBeforeUpdate 需要跟componentDidUpdate配合使用来替代 componentWillUpdate
 
+总结：
+1. react 16版本 使用了Fiber架构，异步渲染的机制下，使得render 阶段是允许暂停，终止和重启的，这就导致render 阶段的生命周期是有可能内重复执行的
+2. 16版本打算废除了 `componentWillMount; componentWillUpdate;componentWillReceiveProps`这三个生命周期，首先它们都是render阶段的，有可能重复触发，其次确保了Fiber机制下数据和视图的安全性，同时也确保了生命周期的方法行为更加纯粹，可控，可预测
