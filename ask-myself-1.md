@@ -345,14 +345,13 @@ function bubbleSort(arr){
 	let flat = false;
 	for(let i=0;i<len;i++){
 		if(flat) break;
+		flat = true;
 		for(let k=0;k<len-i-1;k++){
 			if(arr[k]>arr[k+1]){
 				let temp = arr[k];
 				arr[k] = arr[k+1];
 				arr[k+1] = temp;
 				flat = false;
-			}else{
-				flat = true;
 			}
 		}
 	}
